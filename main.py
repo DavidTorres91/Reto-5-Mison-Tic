@@ -1,6 +1,6 @@
 from datetime import datetime
 import os
-
+import utilidades as ut
 
 # AGENDA DE CITAS
 
@@ -19,18 +19,19 @@ persona = {
 }
 
 #Registro en personas
-  
+
 #Defino el centinela en None.
 centinela = None
 #Inicio el ciclo principal. 
+
 while (centinela == None):
-    #Inicio el ciclo primero.
+    #Inicio el ciclo de validacion de Tipo de documento.
     while(centinela == None):
         #Defino x(str) con un input.
         tipo_doc = input('Cual es tu tipo de documento?\t (CC,PA,TI o CE)\n  => ').upper()
         os.system ("clear")
         #Condicion de prueba para x
-        if (tipo_doc == 'CC' or tipo_doc == 'TI' or tipo_doc == 'PA' or tipo_doc == 'CE'):
+        if ut.vtipo_doc(tipo_doc ):
             #Imprimo un mensaje solicitando los datos al usuario.
             print(f"""\n-*-*-*-*-*-*-*-*-*-*-*-  
 | Tipo de Doc.\t | {tipo_doc} | 
@@ -46,13 +47,13 @@ while (centinela == None):
     #Cambio el estado de centinela para salir al segundo ciclo.        
     centinela = None
 
-    #Inicio el ciclo segundo.
+    #Inicio el ciclo de validacion de numero de documento.
     while(centinela == None):
     #Inicio el ciclo secundario.
         numero_doc = input("Cual es el numero de numero de documento?\t (Solo numeros, sin puntos ni comas.)\n  => ")
         os.system ("clear")
         #Condicion de prueba para y
-        if numero_doc.isnumeric() and len(numero_doc) <= 12 :
+        if  ut.vnumero_doc(numero_doc):
             #Imprimo un mensaje solicitando los datos al usuario.
             print(f"""\n-*-*-*-*-*-*-*-*-*-*-*-  
 | Tipo de Doc.\t | {tipo_doc} | 
@@ -70,13 +71,13 @@ while (centinela == None):
     #Cambio el estado de centinela para salir al tercer ciclo.        
     centinela = None
 
-    #Inicio el ciclo tercero.
+    #Inicio el ciclo de validacion del nombre.
     while(centinela == None):
     #Inicio el ciclo secundario.
         nombre = input('Digite su nombre:\n  =>  ').capitalize()
         os.system ("clear")
         #Condicion de prueba para y
-        if nombre.isalpha() and len(nombre)<=30:
+        if ut.vnombre(nombre):
             #Imprimo un mensaje solicitando los datos al usuario.
             print(f"""\n-*-*-*-*-*-*-*-*-*-*-*-  
 | Tipo de Doc.\t | {tipo_doc} | 
@@ -96,13 +97,13 @@ while (centinela == None):
     #Cambio el estado de centinela para salir al tercer ciclo.        
     centinela = None
   
-    #Inicio el ciclo cuarto.
+    #Inicio el ciclo de validacion del apellido.
     while(centinela == None):
     #Inicio el ciclo secundario.
         apellido = input('Digite su apellido:\n  =>  ').capitalize()
         os.system ("clear")
         #Condicion de prueba para y
-        if apellido.isalpha() and len(nombre)<=30:
+        if ut.vapellido(apellido):
         #Imprimo un mensaje de prueba.
             print(f"""\n-*-*-*-*-*-*-*-*-*-*-*-  
 | Tipo de Doc.\t | {tipo_doc} | 
@@ -123,15 +124,15 @@ while (centinela == None):
             centinela = None          
     centinela = None
 
-    #Inicio el ciclo quinto.
+    #Inicio el ciclo de validacion de la fecha.
     while(centinela == None):
     #Inicio el ciclo secundario.
         fecha = input("Cual es su fecha de nacimiento?\t (AAAA-MM-DD)\n  => ")
         os.system ("clear")
         try:
-          fecha1 = datetime.strptime(fecha, '%Y/%m/%d').date()
+          fecha1 = datetime.strptime(fecha, '%Y-%m-%d').date()
           #Condicion de prueba para y
-          if len(fecha)<=30:
+          if ut.vfecha(fecha):
           #Imprimo un mensaje de prueba.
               print(f"""\n-*-*-*-*-*-*-*-*-*-*-*-  
   | Tipo de Doc.\t | {tipo_doc} | 
@@ -154,13 +155,13 @@ while (centinela == None):
           centinela = True
     centinela = None
   
-    #Inicio el ciclo sexto.
+    #Inicio el ciclo de validacion del RH y tipo de sangre.
     while(centinela == None):
         #Defino x(str) con un input.
         rh_gs = input('Cual es tu tipo sangre (O,A,B) y RH (+,-)\n  => ').upper()
         os.system ("clear")
         #Condicion de prueba para x
-        if (rh_gs[0]=="O" or rh_gs[0]=="A" or rh_gs[0]=="B")and(rh_gs[1] == "+" or rh_gs[1] == "-"):
+        if ut.vrh_gs(rh_gs):
             #Imprimo un mensaje solicitando los datos al usuario.
             print(f"""\n-*-*-*-*-*-*-*-*-*-*-*-  
 | Tipo de Doc.\t | {tipo_doc} | 
@@ -186,19 +187,14 @@ while (centinela == None):
     #Cambio el estado de centinela para salir al segundo ciclo.        
     centinela = None
 
-    #Inicio el ciclo primero.
+    #Inicio el ciclo de validacion del correo
     while(centinela == None):
         #Defino x(str) con un input.
         correo = input('Cual es tu correo electronico\n  => ')
         os.system ("clear")
         #Condicion de prueba para x
-        dominio= (correo.split('.'))
-        if (
-          len(correo)<=50 and
-          correo.find('@') != -1 and
-          correo.find('.') > correo.find('@')+3 and 
-          len(dominio) >=2 and len(dominio) <=3
-        ):
+        if ut.vcorreo(correo):
+            
             #Imprimo un mensaje solicitando los datos al usuario.
             print(f"""\n-*-*-*-*-*-*-*-*-*-*-*-  
 | Tipo de Doc.\t | {tipo_doc} | 
@@ -226,11 +222,47 @@ while (centinela == None):
             print("Error: Dato incorrecto.\n")
     #Cambio el estado de centinela para salir al segundo ciclo.        
     centinela = None
+
+    #Inicio el ciclo de validacion del numero telefonico
+    while(centinela == None):
+        #Defino x(str) con un input.
+        numero_tel = input('Cual es tu número de telefono?\t \n  => ').upper()
+        os.system ("clear")
+        #Condicion de prueba para x
+        if vnumero_tel(numero_tel):
+            #Imprimo un mensaje solicitando los datos al usuario.
+            print(f"""\n-*-*-*-*-*-*-*-*-*-*-*-  
+| Tipo de Doc.\t | {tipo_doc} | 
+-*-*-*-*-*-*-*-*-*-*-*-  
+| Numero de Doc.\t | {numero_doc} | 
+-*-*-*-*-*-*-*-*-*-*-*-
+| Nombre.\t | {nombre} | 
+-*-*-*-*-*-*-*-*-*-*-*-
+| Apellido.\t | {apellido} | 
+-*-*-*-*-*-*-*-*-*-*-*-
+| Fecha de Nacimiento.\t | {fecha1} | 
+-*-*-*-*-*-*-*-*-*-*-*-
+| Tipo de sangre.\t | {rh_gs[0]} {rh_gs[1]} | 
+-*-*-*-*-*-*-*-*-*-*-*-
+| Correo.\t | {correo} |
+-*-*-*-*-*-*-*-*-*-*-*-
+| número.\t | {numero_tel} |                  
+-*-*-*-*-*-*-*-*-*-*-*-\n""")
           
+            #Cambio el centinela para que salga de el ciclo secundario.
+            centinela = True
+        #Si la condicion Falla.
+        else:
+            #Imprimo mensaje de Error.
+            os.system ("clear")
+            print("Error: Dato incorrecto.\n")
+    #Cambio el estado de centinela para salir al segundo ciclo.        
+    centinela = None
+
+  
 #Mensaje de salida o reinicio de sisitema
     continuar = input("Desea iniciar de nuevo?\t (Si = 1, Salir = Enter.)\n  => ")
     if continuar == 1:
         centinela = None
     else:
         print("Finalizado")
-
