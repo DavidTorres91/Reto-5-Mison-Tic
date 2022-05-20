@@ -7,16 +7,6 @@ import utilidades as ut
 centinela = ''
 personas = []
 citas=[]
-persona = {
-  'tipo_doc' : '',
-  'numero_doc' : '',
-  'nombre' : '',
-  'apellido' : '',
-  'fecha_nacio' : '',
-  'rh_gs' : '',
-  'correo' : '',
-  'numero_tel' : '' 
-}
 
 #Registro en personas
 
@@ -162,8 +152,8 @@ while (centinela == None):
         os.system ("clear")
         #Condicion de prueba para x
         if ut.vrh_gs(rh_gs):
-            #Imprimo un mensaje solicitando los datos al usuario.
-            print(f"""\n-*-*-*-*-*-*-*-*-*-*-*-  
+          #Imprimo un mensaje solicitando los datos al usuario.
+          print(f"""\n-*-*-*-*-*-*-*-*-*-*-*-  
 | Tipo de Doc.\t | {tipo_doc} | 
 -*-*-*-*-*-*-*-*-*-*-*-  
 | Numero de Doc.\t | {numero_doc} | 
@@ -174,16 +164,15 @@ while (centinela == None):
 -*-*-*-*-*-*-*-*-*-*-*-
 | Fecha de Nacimiento.\t | {fecha1} | 
 -*-*-*-*-*-*-*-*-*-*-*-
-| Tipo de sangre.\t | {rh_gs[0]} {rh_gs[1]} | 
+| Tipo de sangre.\t | {rh_gs}  | 
 -*-*-*-*-*-*-*-*-*-*-*-\n""")
-          
-            #Cambio el centinela para que salga de el ciclo secundario.
-            centinela = True
-        #Si la condicion Falla.
+          centinela = True
         else:
-            #Imprimo mensaje de Error.
-            os.system ("clear")
-            print("Error: Dato incorrecto.\n")
+          os.system ("clear")
+          print(rh_gs)
+          print("Error: Dato incorrecto.\n")
+          centinela = None
+      
     #Cambio el estado de centinela para salir al segundo ciclo.        
     centinela = None
 
@@ -229,7 +218,7 @@ while (centinela == None):
         numero_tel = input('Cual es tu número de telefono?\t \n  => ').upper()
         os.system ("clear")
         #Condicion de prueba para x
-        if vnumero_tel(numero_tel):
+        if ut.vnumero_tel(numero_tel):
             #Imprimo un mensaje solicitando los datos al usuario.
             print(f"""\n-*-*-*-*-*-*-*-*-*-*-*-  
 | Tipo de Doc.\t | {tipo_doc} | 
@@ -259,10 +248,23 @@ while (centinela == None):
     #Cambio el estado de centinela para salir al segundo ciclo.        
     centinela = None
 
+#Registro al usuario en la lista de personas
+    personas.append(ut.crear_persona(tipo_doc,
+                                     numero_doc,
+                                     nombre,
+                                     apellido,
+                                     fecha,
+                                     rh_gs,
+                                     correo,
+                                     numero_tel))
+    
+    print(personas)  
   
 #Mensaje de salida o reinicio de sisitema
     continuar = input("Desea iniciar de nuevo?\t (Si = 1, Salir = Enter.)\n  => ")
     if continuar == 1:
+        os.system ("clear")
         centinela = None
     else:
+        os.system ("clear")
         print("Finalizado")
