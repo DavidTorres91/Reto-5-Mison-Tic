@@ -1,5 +1,4 @@
-import re
-
+import re,datetime
 
 
 def vtipo_doc(tipo_doc ):
@@ -56,9 +55,22 @@ def vnumero_tel(numero_tel):
   else:
     return False
 
+def validar_usuario(tipo_doc,numero_doc,nombre,apellido,fecha,rh_gs,correo,numero_tel):
+  if (tipo_doc() and
+      numero_doc() and
+      nombre() and
+      apellido() and
+      fecha() and
+      rh_gs() and
+      correo() and
+      numero_tel()):
+        return True
+  else:
+    return False
+
 def crear_persona(tipo_doc,numero_doc,nombre,apellido,fecha,rh_gs,correo,numero_tel):
   persona = {
-  'tipo_doc' : tipo_doc,
+  'Tipo doccumento' : tipo_doc,
   'numero_doc' : numero_doc,
   'nombre' : nombre,
   'apellido' : apellido,
@@ -70,22 +82,59 @@ def crear_persona(tipo_doc,numero_doc,nombre,apellido,fecha,rh_gs,correo,numero_
   
   return persona
 
-  
+
+
+
+def Validar_Existente(numero_documento, personas):
+    for persona in personas:
+        if persona['Numero de documento'] == numero_documento:
+          print("Ya esta registrado")
+          return True
+        else:
+          print("No esta registrado")
+          return False 
+
+
+
+def validar_fecha_cita(fecha_cita):
+    if datetime.strptime(fecha_cita, '%Y-%m-%d') > datetime.now():
+        return True
+    else:
+        return False
 """
 def ():
   if():
     return True
   else:
-    False
-
-def ():
-  if():
-    return True
-  else:
-    False
-
-def ():
-  if():
-    return True
-  else:
     False"""
+
+def agendar_citas(personas,numero_doc,fecha):
+  existe=Validar_Existente(personas,numero_doc) 
+  if existe :
+
+    fecha_date = datetime.strptime(fecha, '%Y-%m-%d').date()
+    if validar_fecha_cita(fecha_date):
+      return fecha_date
+  else:
+    return False
+
+def visualizar_usuarios(tipo_doc,numero_doc,nombre,apellido,fecha,rh_gs,correo,numero_tel):
+
+  vista = print(f"""\n  -*-*-*-*-*-*-*-*-*-*-*-  
+  | Tipo de Doc.\t | {tipo_doc} | 
+  -*-*-*-*-*-*-*-*-*-*-*-  
+  | Numero de Doc.\t | {numero_doc} | 
+  -*-*-*-*-*-*-*-*-*-*-*-
+  | Nombre.\t | {nombre} | 
+  -*-*-*-*-*-*-*-*-*-*-*-
+  | Apellido.\t | {apellido} | 
+  -*-*-*-*-*-*-*-*-*-*-*-
+  | Fecha de Nacimiento.\t | {fecha} | 
+  -*-*-*-*-*-*-*-*-*-*-*-
+  | Tipo de sangre.\t | {rh_gs[0]} {rh_gs[1]} | 
+  -*-*-*-*-*-*-*-*-*-*-*-
+  | Correo.\t | {correo} |
+  -*-*-*-*-*-*-*-*-*-*-*-
+  | número.\t | {numero_tel} |                  
+  -*-*-*-*-*-*-*-*-*-*-*-\n""")
+  return vista
